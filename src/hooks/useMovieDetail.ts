@@ -1,16 +1,19 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import type { MovieDetailType, StatusType } from "../types/types.ts"
-import { getMovieDetail } from "../services/api.ts"
 import { useParams } from "react-router-dom"
+import { getMovieDetail } from "../services/getMovieDetail.ts"
+import { CanceledError } from "axios"
 
 export const useMovieDetail = () => {
   const [movie, setMovie] = useState<MovieDetailType | null>(null)
   const [status, setStatus] = useState<StatusType>("idle")
   const [error, setError] = useState<string | null>(null)
   const { id: movieId } = useParams()
-  const abortControllerRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
+    const controller = new AbortController()
+    let isCancelled = false
+
     const fetchMovie = async () => {
       if (!movieId) {
         setStatus("idle")
@@ -18,36 +21,36 @@ export const useMovieDetail = () => {
         return
       }
 
-      abortControllerRef.current?.abort()
-      abortControllerRef.current = new AbortController()
-
       setStatus("loading")
       setError(null)
 
       try {
-        const data = await getMovieDetail(
-          movieId,
-          abortControllerRef.current?.signal
-        )
-        setMovie(data)
-        setStatus("success")
-      } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
+        const data = await getMovieDetail(movieId, controller.signal)
+
+        if (!isCancelled) {
+          setMovie(data)
+          setStatus("success")
+        }
+      } catch (error: unknown) {
+        if (error instanceof CanceledError) {
           return
         }
+        if (!isCancelled) {
+          const errorMessage =
+            error instanceof Error ? error.message : "An unexpected occured"
 
-        const errorMessage =
-          error instanceof Error ? error.message : "Une erreur est survenue"
-        setError(errorMessage)
-        setStatus("error")
-        setMovie(null)
+          setError(errorMessage)
+          setStatus("error")
+          setMovie(null)
+        }
       }
     }
 
     fetchMovie()
 
     return () => {
-      abortControllerRef.current?.abort()
+      isCancelled = true
+      controller.abort()
     }
   }, [movieId])
 
