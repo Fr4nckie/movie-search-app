@@ -6,12 +6,20 @@ type SearchbarProps = {
 }
 
 const Searchbar = ({ onSearch }: SearchbarProps) => {
-  const [searchTerm, setSearchTerm] = useState("")
+  const searchTermStorage = sessionStorage.getItem("search-term")
+  const [searchTerm, setSearchTerm] = useState(() =>
+    searchTermStorage ? searchTermStorage : ""
+  )
   const debouncedValue = useDebounce(searchTerm, 500)
 
   useEffect(() => {
     onSearch(debouncedValue)
   }, [debouncedValue, onSearch])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+    sessionStorage.setItem("search-term", e.target.value)
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -42,7 +50,7 @@ const Searchbar = ({ onSearch }: SearchbarProps) => {
           className="grow"
           placeholder="Search a movie..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleChange}
         />
       </label>
     </form>
