@@ -1,19 +1,20 @@
+import { useState } from "react"
 import MovieList from "../components/MovieList.tsx"
 import Searchbar from "../components/Searchbar.tsx"
-import { useSearchMovies } from "../hooks/useSearchMovies.ts"
+import { useDebounce } from "../hooks/useDebounce.ts"
 
 const Home = () => {
-  const { search, status, isLoading, error, movies } = useSearchMovies()
+  const [searchTerm, setSearchTerm] = useState("")
+  const debouncedValue = useDebounce(searchTerm, 500)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+  }
 
   return (
     <>
-      <Searchbar onSearch={search} />
-      <MovieList
-        status={status}
-        isLoading={isLoading}
-        error={error}
-        movies={movies}
-      />
+      <Searchbar query={searchTerm} onChange={handleChange} />
+      <MovieList query={debouncedValue} />
     </>
   )
 }

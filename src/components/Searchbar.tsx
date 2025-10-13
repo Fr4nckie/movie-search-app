@@ -1,25 +1,11 @@
-import { useEffect, useState } from "react"
-import { useDebounce } from "../hooks/useDebounce.ts"
-
 type SearchbarProps = {
-  onSearch: (query: string) => void
+  query: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Searchbar = ({ onSearch }: SearchbarProps) => {
-  const [searchTerm, setSearchTerm] = useState("")
-  const debouncedValue = useDebounce(searchTerm, 500)
-
-  useEffect(() => {
-    onSearch(debouncedValue)
-  }, [debouncedValue, onSearch])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSearch(searchTerm)
-  }
-
+const Searchbar = ({ query, onChange }: SearchbarProps) => {
   return (
-    <form className="container mx-auto px-4" onSubmit={handleSubmit}>
+    <form className="container mx-auto px-4">
       <label className="input w-full">
         <svg
           className="h-[1em] opacity-50"
@@ -41,8 +27,8 @@ const Searchbar = ({ onSearch }: SearchbarProps) => {
           type="search"
           className="grow"
           placeholder="Search a movie..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={query}
+          onChange={onChange}
         />
       </label>
     </form>
