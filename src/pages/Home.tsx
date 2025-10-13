@@ -4,11 +4,15 @@ import Searchbar from "../components/Searchbar.tsx"
 import { useDebounce } from "../hooks/useDebounce.ts"
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState("")
+  const savedTerm = sessionStorage.getItem("search-term")
+  const [searchTerm, setSearchTerm] = useState(() =>
+    savedTerm ? savedTerm : ""
+  )
   const debouncedValue = useDebounce(searchTerm, 500)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
+    sessionStorage.setItem("search-term", e.target.value)
   }
 
   return (
