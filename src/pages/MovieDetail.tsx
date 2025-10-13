@@ -1,19 +1,22 @@
-import { useEffect } from "react"
 import { useMovieDetail } from "../hooks/useMovieDetail.ts"
 import { getPosterUrl } from "../utils/getPosterUrl.ts"
 import MovieDetailContent from "../components/MovieDetailContent.tsx"
+import { Navigate, useParams } from "react-router-dom"
 
 const MovieDetail = () => {
-  const { movie, isLoading, error } = useMovieDetail()
+  const { id } = useParams()
+  const { data: movie, isLoading, error, isError } = useMovieDetail(id || "")
 
-  useEffect(() => console.log(movie), [movie])
+  if (!id) {
+    return <Navigate to="/" replace />
+  }
 
   if (isLoading) {
     return <div className="flex-1 grid place-items-center">Loading...</div>
   }
 
-  if (error) {
-    return <div className="flex-1 grid place-items-center">{error}</div>
+  if (isError) {
+    return <div className="flex-1 grid place-items-center">{error.message}</div>
   }
 
   const posterUrl = getPosterUrl(movie?.poster_path as string)
