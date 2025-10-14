@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import type { MediaItem } from "../types/types.ts"
-import { getPosterUrl } from "../utils/getPosterUrl.ts"
+import { getMediaCardContent } from "../utils/getMediaCardContent.ts"
 
 type MediaCardProps = {
   mediaItem: MediaItem
@@ -8,15 +8,9 @@ type MediaCardProps = {
 
 const MediaCard = ({ mediaItem }: MediaCardProps) => {
   const navigate = useNavigate()
+  const { posterUrl, title, startDate } = getMediaCardContent(mediaItem)
 
   const handleClick = () => navigate(`/movie/${mediaItem.id}`)
-
-  const posterUrl = getPosterUrl(mediaItem.poster_path)
-  const title = "title" in mediaItem ? mediaItem.title : mediaItem.name
-  const startDate =
-    "release_date" in mediaItem
-      ? mediaItem.release_date
-      : mediaItem.first_air_date
 
   return (
     <div className="card bg-base-100 sm:w-full shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 cursor-pointer">
