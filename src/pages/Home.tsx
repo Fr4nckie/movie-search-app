@@ -2,12 +2,15 @@ import { useState } from "react"
 import MovieList from "../components/MovieList.tsx"
 import Searchbar from "../components/Searchbar.tsx"
 import { useDebounce } from "../hooks/useDebounce.ts"
+import TrendingList from "../components/TrendingList.tsx"
 
 const Home = () => {
-  const savedTerm = sessionStorage.getItem("search-term")
-  const [searchTerm, setSearchTerm] = useState(() =>
-    savedTerm ? savedTerm : ""
-  )
+  const [searchTerm, setSearchTerm] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("search-term") || ""
+    }
+    return ""
+  })
   const debouncedValue = useDebounce(searchTerm, 500)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +21,11 @@ const Home = () => {
   return (
     <>
       <Searchbar query={searchTerm} onChange={handleChange} />
-      <MovieList query={debouncedValue} />
+      {!debouncedValue ? (
+        <TrendingList />
+      ) : (
+        <MovieList query={debouncedValue} />
+      )}
     </>
   )
 }
