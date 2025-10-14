@@ -98,3 +98,5 @@ export type MovieDetailType = {
   vote_average: number
   vote_count: number
 }
+
+export type DateFormat = "full" | "year" | "monthAndYear"
