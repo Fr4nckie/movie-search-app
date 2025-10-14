@@ -1,17 +1,12 @@
 import type { MovieDetailType } from "../types/types.ts"
+import { formatDate } from "../utils/formatDate.ts"
 
 type MovieDetailContentProps = { movie: MovieDetailType }
 
 const MovieDetailContent = ({ movie }: MovieDetailContentProps) => {
   if (!movie) return null
 
-  const releaseDate = new Date(
-    movie?.release_date as string
-  ).toLocaleDateString("en-US", {
-    month: "long",
-    day: "2-digit",
-    year: "numeric",
-  })
+  const startDate = formatDate(movie.release_date, "full")
 
   const country = movie?.production_countries
     .map((country) => country.name)
@@ -27,7 +22,9 @@ const MovieDetailContent = ({ movie }: MovieDetailContentProps) => {
         {movie.title}
       </h1>
       {movie.tagline && (
-        <p className="md:text-md lg:text-xl italic mt-1 max-w-3xl">{movie.tagline}</p>
+        <p className="md:text-md lg:text-xl italic mt-1 max-w-3xl">
+          {movie.tagline}
+        </p>
       )}
       <ul className="text-gray-400 flex items-center gap-4 my-4">
         {movie.genres.map((genre) => (
@@ -37,7 +34,7 @@ const MovieDetailContent = ({ movie }: MovieDetailContentProps) => {
         ))}
       </ul>
       <p className="text-gray-400">
-        {releaseDate} | {movie.runtime}min | {country}
+        {startDate} | {movie.runtime}min | {country}
       </p>
       <div className="flex items-center gap-4 mt-2">
         <p className="text-gray-400">{language}</p>
