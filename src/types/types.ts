@@ -1,20 +1,44 @@
 export type StatusType = "idle" | "loading" | "success" | "error"
 
-export type Movie = {
+export type MediaType = "movie" | "tv" | "all"
+
+export type TimeWindow = "day" | "week"
+
+export type BaseMedia = {
   adult: boolean
   backdrop_path: string
-  genre_ids: number[]
   id: number
   original_language: string
-  original_title: string
+  genre_ids: number[]
   overview: string
   popularity: number
   poster_path: string
+  media_type?: MediaType
+  vote_average: number
+  vote_count: number
+}
+
+export type Movie = BaseMedia & {
+  original_title: string
   release_date: string // Date ISO
   title: string
   video: boolean
-  vote_average: number
-  vote_count: number
+}
+
+export type TVShow = BaseMedia & {
+  name: string
+  original_name: string
+  first_air_date: string // Date ISO
+  origin_country: string[]
+}
+
+export type MediaItem = Movie | TVShow
+
+export type TrendingAllResponseType = {
+  page: number
+  results: MediaItem[]
+  total_pages: number
+  total_results: number
 }
 
 export type MovieResponseType = {
