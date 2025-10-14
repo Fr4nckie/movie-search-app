@@ -27,7 +27,7 @@ const MovieDetailContent = ({ movie }: MovieDetailContentProps) => {
         {movie.title}
       </h1>
       {movie.tagline && (
-        <p className="text-lg md:text-xl italic mt-1">{movie.tagline}</p>
+        <p className="md:text-md lg:text-xl italic mt-1 max-w-3xl">{movie.tagline}</p>
       )}
       <ul className="text-gray-400 flex items-center gap-4 my-4">
         {movie.genres.map((genre) => (
