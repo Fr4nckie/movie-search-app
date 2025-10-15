@@ -1,6 +1,8 @@
 export type StatusType = "idle" | "loading" | "success" | "error"
 
-export type MediaType = "movie" | "tv" | "all"
+export type MediaType = "movie" | "tv"
+
+export type MediaTypeParams = "movie" | "tv" | "all"
 
 export type TimeWindow = "day" | "week"
 
@@ -13,7 +15,7 @@ export type BaseMedia = {
   overview: string
   popularity: number
   poster_path: string
-  media_type?: MediaType
+  media_type: MediaType
   vote_average: number
   vote_count: number
 }
@@ -34,7 +36,7 @@ export type TVShow = BaseMedia & {
 
 export type MediaItem = Movie | TVShow
 
-export type TrendingAllResponseType = {
+export type MediaListResponse = {
   page: number
   results: MediaItem[]
   total_pages: number
