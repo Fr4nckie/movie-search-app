@@ -1,10 +1,10 @@
-import { useSearchMovies } from "../hooks/useSearchMovies.ts"
+import { useSearchMedia } from "../hooks/useSearchMedia.ts"
 import type { Movie, TVShow } from "../types/types.ts"
 import ErrorMessage from "./ErrorMessage.tsx"
 import MediaCard from "./MediaCard.tsx"
 
 const MediaList = ({ query }: { query: string }) => {
-  const { data, isLoading, isError, error } = useSearchMovies(query)
+  const { data, isLoading, isError, error } = useSearchMedia(query)
 
   let results: Movie[] | TVShow[] = []
 
