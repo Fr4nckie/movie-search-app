@@ -1,8 +1,19 @@
 export type StatusType = "idle" | "loading" | "success" | "error"
 
-export type MediaType = "movie" | "tv" | "all"
+export type MediaType = "movie" | "tv"
+
+export type MediaTypeParams = "movie" | "tv" | "all"
 
 export type TimeWindow = "day" | "week"
+
+export type SearchCategory =
+  | "movie"
+  | "tv"
+  | "multi"
+  | "person"
+  | "keyword"
+  | "company"
+  | "collection"
 
 export type BaseMedia = {
   adult: boolean
@@ -13,7 +24,7 @@ export type BaseMedia = {
   overview: string
   popularity: number
   poster_path: string
-  media_type?: MediaType
+  media_type: MediaType
   vote_average: number
   vote_count: number
 }
@@ -32,9 +43,7 @@ export type TVShow = BaseMedia & {
   origin_country: string[]
 }
 
-export type MediaItem = Movie | TVShow
-
-export type TrendingAllResponseType = {
+export type MediaListResponse = {
   page: number
   results: MediaItem[]
   total_pages: number
@@ -71,32 +80,99 @@ export type Language = {
   name: string
 }
 
-export type MovieDetailType = {
+export type CreatedBy = {
+  id: number
+  credit_id: string
+  name: string
+  gender: number
+  profile_path: string
+}
+
+export type LastEpisodeToAir = {
+  id: number
+  name: string
+  overview: string
+  vote_average: number
+  vote_count: number
+  air_date: string
+  episode_number: number
+  production_code: string
+  runtime: number
+  season_number: number
+  show_id: number
+  still_path: string
+}
+
+export type Network = {
+  id: number
+  logo_path: string
+  name: string
+  origin_country: string
+}
+
+export type Season = {
+  air_date: string
+  episode_count: number
+  id: number
+  name: string
+  overview: string
+  poster_path: string
+  season_number: number
+  vote_average: number
+}
+
+export type BaseMediaDetail = {
   adult: boolean
   backdrop_path: string
-  belongs_to_collection: string
-  budget: number
-  genres: Genre[]
-  homepage: string
   id: number
-  imdb_id: string
+  genres: Genre[]
   original_language: string
-  original_title: string
   overview: string
   popularity: number
   poster_path: string
   production_companies: Company[]
   production_countries: Country[]
-  release_date: string
-  revenue: number
-  runtime: number
   spoken_languages: Language[]
   status: string
   tagline: string
-  title: string
-  video: boolean
   vote_average: number
   vote_count: number
 }
+
+export type MovieDetailType = BaseMediaDetail & {
+  belongs_to_collection: string
+  budget: number
+  homepage: string
+  imdb_id: string
+  original_title: string
+  release_date: string
+  revenue: number
+  runtime: number
+  title: string
+  video: boolean
+}
+
+export type TVShowDetailType = BaseMediaDetail & {
+  created_by: CreatedBy[]
+  episode_run_time: number[]
+  first_air_date: string // date ISO
+  homepage: string
+  in_production: boolean
+  languages: string[]
+  last_air_date: string // date ISO
+  last_episode_to_air: LastEpisodeToAir
+  name: string
+  next_episode_to_air: string
+  networks: Network[]
+  number_of_episodes: number
+  number_of_seasons: number
+  origin_country: string[]
+  original_name: string
+  seasons: Season[]
+}
+
+export type MediaItem = Movie | TVShow
+
+export type MediaDetailItem = MovieDetailType | TVShowDetailType
 
 export type DateFormat = "full" | "year" | "monthAndYear"

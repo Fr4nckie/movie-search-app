@@ -1,43 +1,42 @@
-import type { MovieDetailType } from "../types/types.ts"
-import { formatDate } from "../utils/formatDate.ts"
+import type { MediaDetailItem } from "../types/types.ts"
+import {
+  getMediaCountries,
+  getMediaLanguages,
+  getMediaRuntime,
+  getMediaStartDate,
+  getMediaTitle,
+} from "../utils/getMediaContent.ts"
 
-type MovieDetailContentProps = { movie: MovieDetailType }
+type MovieDetailContentProps = { mediaDetailItem: MediaDetailItem }
 
-const MovieDetailContent = ({ movie }: MovieDetailContentProps) => {
-  if (!movie) return null
+const MediaDetailContent = ({ mediaDetailItem }: MovieDetailContentProps) => {
+  if (!mediaDetailItem) return null
 
-  const startDate = formatDate(movie.release_date, "full")
-
-  const country = movie?.production_countries
-    .map((country) => country.name)
-    .join(", ")
-
-  const language = movie?.spoken_languages
-    .map((language) => language.english_name)
-    .join(", ")
+  const runtime = getMediaRuntime(mediaDetailItem)
 
   return (
     <div className="flex flex-col">
       <h1 className="text-2xl md:text-4xl font-bold md:max-w-md">
-        {movie.title}
+        {getMediaTitle(mediaDetailItem)}
       </h1>
-      {movie.tagline && (
+      {mediaDetailItem.tagline && (
         <p className="md:text-md lg:text-xl italic mt-1 max-w-3xl">
-          {movie.tagline}
+          {mediaDetailItem.tagline}
         </p>
       )}
       <ul className="text-gray-400 flex items-center gap-4 my-4">
-        {movie.genres.map((genre) => (
+        {mediaDetailItem.genres.map((genre) => (
           <li key={genre.id} className="border py-1 px-4 rounded-full text-sm">
             {genre.name}
           </li>
         ))}
       </ul>
       <p className="text-gray-400">
-        {startDate} | {movie.runtime}min | {country}
+        {getMediaStartDate(mediaDetailItem)} |{" "}
+        {runtime ? `${runtime}min |` : ""} {getMediaCountries(mediaDetailItem)}
       </p>
       <div className="flex items-center gap-4 mt-2">
-        <p className="text-gray-400">{language}</p>
+        <p className="text-gray-400">{getMediaLanguages(mediaDetailItem)}</p>
         <span>|</span>
         <div className="badge py-4">
           <div className="flex items-center gap-2">
@@ -51,15 +50,17 @@ const MovieDetailContent = ({ movie }: MovieDetailContentProps) => {
               />
             </div>
             <p className="text-lg font-semibold">
-              {movie.vote_average.toFixed(1)}
+              {mediaDetailItem.vote_average.toFixed(1)}
             </p>
           </div>
         </div>
       </div>
 
-      <p className="mt-4 max-w-3xl hidden md:block">{movie.overview}</p>
+      <p className="mt-4 max-w-3xl hidden md:block">
+        {mediaDetailItem.overview}
+      </p>
     </div>
   )
 }
 
-export default MovieDetailContent
+export default MediaDetailContent

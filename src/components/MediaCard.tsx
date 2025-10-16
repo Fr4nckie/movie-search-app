@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom"
 import type { MediaItem } from "../types/types.ts"
-import { getMediaCardContent } from "../utils/getMediaCardContent.ts"
+import {
+  getMediaPosterUrl,
+  getMediaStartDate,
+  getMediaTitle,
+} from "../utils/getMediaContent.ts"
 
 type MediaCardProps = {
   mediaItem: MediaItem
@@ -8,15 +12,16 @@ type MediaCardProps = {
 
 const MediaCard = ({ mediaItem }: MediaCardProps) => {
   const navigate = useNavigate()
-  const { posterUrl, title, startDate } = getMediaCardContent(mediaItem)
 
-  const handleClick = () => navigate(`/movie/${mediaItem.id}`)
+  const title = getMediaTitle(mediaItem)
+
+  const handleClick = () => navigate(`/${mediaItem.media_type}/${mediaItem.id}`)
 
   return (
     <div className="card bg-base-100 sm:w-full shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 cursor-pointer">
       <figure className="aspect-[2/3]">
         <img
-          src={posterUrl}
+          src={getMediaPosterUrl(mediaItem)}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
           loading="lazy"
@@ -30,7 +35,9 @@ const MediaCard = ({ mediaItem }: MediaCardProps) => {
         >
           {title}
         </h2>
-        <p className="absolute bottom-4 text-gray-400">{startDate}</p>
+        <p className="absolute bottom-4 text-gray-400">
+          {getMediaStartDate(mediaItem)}
+        </p>
       </div>
     </div>
   )

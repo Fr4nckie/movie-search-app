@@ -1,4 +1,6 @@
 import { useTrendingMedia } from "../hooks/useTrendingMedia.ts"
+import ErrorMessage from "./ErrorMessage.tsx"
+import Loading from "./Loading.tsx"
 import MediaCard from "./MediaCard.tsx"
 
 const TrendingList = () => {
@@ -7,7 +9,7 @@ const TrendingList = () => {
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <p className="text-center text-gray-400">Loading...</p>
+        <Loading />
       </div>
     )
   }
@@ -15,7 +17,7 @@ const TrendingList = () => {
   if (isError) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <p className="text-center text-red-500">{error.message}</p>
+        <ErrorMessage message={error.message} />
       </div>
     )
   }

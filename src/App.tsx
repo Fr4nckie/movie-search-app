@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "./pages/Home.tsx"
 import Root from "./pages/Root.tsx"
-import MovieDetail from "./pages/MovieDetail.tsx"
+import MediaDetail from "./pages/MediaDetail.tsx"
 
 const router = createBrowserRouter([
   {
@@ -13,8 +13,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/movie/:id",
-        element: <MovieDetail />,
+        path: "/:mediaType/:id",
+        element: <MediaDetail />,
       },
     ],
   },
