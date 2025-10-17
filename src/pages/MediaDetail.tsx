@@ -4,6 +4,8 @@ import { Navigate, useParams } from "react-router-dom"
 import type { MediaType } from "../types/types.ts"
 import { getMediaPosterUrl, getMediaTitle } from "../utils/getMediaContent.ts"
 import BackButton from "../components/BackButton.tsx"
+import Loading from "../components/Loading.tsx"
+import ErrorMessage from "../components/ErrorMessage.tsx"
 
 const MediaDetail = () => {
   const params = useParams()
@@ -22,16 +24,24 @@ const MediaDetail = () => {
   }
 
   if (isLoading) {
-    return <div className="flex-1 grid place-items-center">Loading...</div>
+    return (
+      <div className="flex-1 grid place-items-center">
+        <Loading />
+      </div>
+    )
   }
 
   if (isError) {
-    return <div className="flex-1 grid place-items-center">{error.message}</div>
+    return (
+      <div className="flex-1 grid place-items-center">
+        <ErrorMessage message={error.message} />
+      </div>
+    )
   }
 
   return (
     <>
-      <div className="container mx-auto px-4 text-right">
+      <div className="container mx-auto px-4 md:text-right mb-4 md:mb-0">
         <BackButton />
       </div>
       <div className="flex-1 flex flex-col items-center md:flex-row container mx-auto px-4">
