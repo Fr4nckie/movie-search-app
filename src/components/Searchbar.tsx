@@ -1,11 +1,10 @@
-type SearchbarProps = {
-  query: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
+import { useSearchForm } from "../hooks/useSearchForm.ts"
 
-const Searchbar = ({ query, onChange }: SearchbarProps) => {
+const Searchbar = () => {
+  const { query, handleQueryChange, handleSearchSubmit } = useSearchForm()
+
   return (
-    <form className="container mx-auto px-4">
+    <form className="container mx-auto px-4" onSubmit={handleSearchSubmit}>
       <label className="input w-full">
         <svg
           className="h-[1em] opacity-50"
@@ -28,7 +27,7 @@ const Searchbar = ({ query, onChange }: SearchbarProps) => {
           className="grow"
           placeholder="Search a movie..."
           value={query}
-          onChange={onChange}
+          onChange={handleQueryChange}
         />
       </label>
     </form>
