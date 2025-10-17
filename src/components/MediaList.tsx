@@ -1,9 +1,12 @@
+import { useSearchParams } from "react-router-dom"
 import { useSearchMedia } from "../hooks/useSearchMedia.ts"
 import type { Movie, TVShow } from "../types/types.ts"
 import ErrorMessage from "./ErrorMessage.tsx"
 import MediaCard from "./MediaCard.tsx"
 
-const MediaList = ({ query }: { query: string }) => {
+const MediaList = () => {
+  const [params] = useSearchParams()
+  const query = params.get("query") ?? ""
   const { data, isLoading, isError, error } = useSearchMedia(query)
 
   let results: Movie[] | TVShow[] = []

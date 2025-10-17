@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
 import { searchMedia } from "../services/searchMedia.ts"
 
-export const useSearchMedia = (searchTerm: string) => {
+export const useSearchMedia = (query: string) => {
   return useQuery({
-    queryKey: ["search", searchTerm],
-    queryFn: () => searchMedia(searchTerm),
-    enabled: !!searchTerm && searchTerm.length >= 2,
+    queryKey: ["search", query],
+    queryFn: () => searchMedia(query),
+    enabled: !!query,
   })
 }
