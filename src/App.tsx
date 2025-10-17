@@ -2,8 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Root from "./pages/Root.tsx"
 import MediaDetail from "./pages/MediaDetail.tsx"
 import TrendingList from "./components/TrendingList.tsx"
-import SearchPage from "./pages/SearchPage.tsx"
 import SearchLayout from "./components/SearchLayout.tsx"
+import MediaList from "./components/MediaList.tsx"
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
           { index: true, element: <TrendingList /> },
           {
             path: "search",
-            element: <SearchPage />,
+            element: <MediaList />,
           },
         ],
       },
