@@ -6,6 +6,7 @@ import { getMediaPosterUrl, getMediaTitle } from "../utils/getMediaContent.ts"
 import BackButton from "../components/BackButton.tsx"
 import Loading from "../components/Loading.tsx"
 import ErrorMessage from "../components/ErrorMessage.tsx"
+import MediaDetailImage from "../components/MediaDetailImage.tsx"
 
 const MediaDetail = () => {
   const params = useParams()
@@ -41,26 +42,25 @@ const MediaDetail = () => {
 
   return (
     <>
-      <div className="container mx-auto px-4 md:text-right mb-4 md:mb-0">
+      <div className="container mx-auto px-4 md:text-right mb-4">
         <BackButton />
       </div>
-      <div className="flex-1 flex flex-col items-center md:flex-row container mx-auto px-4">
-        <div className="flex flex-col items-center gap-6 md:flex-row lg:gap-12 md:items-start">
-          {mediaDetailItem && (
-            <>
-              <img
-                src={getMediaPosterUrl(mediaDetailItem)}
+      <div className="flex-1 flex flex-col md:flex-row md:gap-6 lg:gap-12 container mx-auto px-4 mb-8">
+        {mediaDetailItem && (
+          <>
+            <div className="mx-auto mb-8 md:mb-0 md:mx-0">
+              <MediaDetailImage
+                posterUrl={getMediaPosterUrl(mediaDetailItem)}
                 alt={getMediaTitle(mediaDetailItem)}
-                className="rounded-md shadow-md md:max-w-[250px] aspect-[2/3] object-cover max-w-[180px]"
               />
-              <MediaDetailContent mediaDetailItem={mediaDetailItem} />
-            </>
-          )}
-        </div>
-        <div className="my-4 md:hidden">
-          <h2 className="text-xl font-semibold mb-2">Synopsis</h2>
-          <p>{mediaDetailItem?.overview}</p>
-        </div>
+            </div>
+            <MediaDetailContent mediaDetailItem={mediaDetailItem} />
+            <div className="my-4 md:hidden">
+              <h2 className="text-xl font-semibold mb-2">Synopsis</h2>
+              <p>{mediaDetailItem?.overview}</p>
+            </div>
+          </>
+        )}
       </div>
     </>
   )
