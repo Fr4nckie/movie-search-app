@@ -5,6 +5,7 @@ import {
   getMediaStartDate,
   getMediaTitle,
 } from "../utils/getMediaContent.ts"
+import { useTheme } from "../hooks/useTheme.ts"
 
 type MediaCardProps = {
   mediaItem: MediaItem
@@ -12,6 +13,7 @@ type MediaCardProps = {
 
 const MediaCard = ({ mediaItem }: MediaCardProps) => {
   const navigate = useNavigate()
+  const { isDark } = useTheme()
 
   const title = getMediaTitle(mediaItem)
 
@@ -35,7 +37,11 @@ const MediaCard = ({ mediaItem }: MediaCardProps) => {
         >
           {title}
         </h2>
-        <p className="absolute bottom-4 text-gray-400">
+        <p
+          className={`absolute bottom-4 ${
+            isDark ? "text-gray-400" : "text-gray-500"
+          }`}
+        >
           {getMediaStartDate(mediaItem)}
         </p>
       </div>

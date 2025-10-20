@@ -1,3 +1,4 @@
+import { useTheme } from "../hooks/useTheme.ts"
 import type { MediaDetailItem } from "../types/types.ts"
 import {
   getMediaCountries,
@@ -10,6 +11,8 @@ import {
 type MovieDetailContentProps = { mediaDetailItem: MediaDetailItem }
 
 const MediaDetailContent = ({ mediaDetailItem }: MovieDetailContentProps) => {
+  const { isDark } = useTheme()
+
   if (!mediaDetailItem) return null
 
   const mediaDuration =
@@ -29,19 +32,25 @@ const MediaDetailContent = ({ mediaDetailItem }: MovieDetailContentProps) => {
           {mediaDetailItem.tagline}
         </p>
       )}
-      <ul className="text-gray-400 flex flex-wrap items-center gap-4 my-4">
+      <ul
+        className={`flex flex-wrap items-center gap-4 my-4 ${
+          isDark ? "text-gray-400" : "text-gray-500"
+        }`}
+      >
         {mediaDetailItem.genres.map((genre) => (
           <li key={genre.id} className="border py-1 px-4 rounded-full text-sm">
             {genre.name}
           </li>
         ))}
       </ul>
-      <p className="text-gray-400">
+      <p className={`${isDark ? "text-gray-400" : "text-gray-500"}`}>
         {getMediaStartDate(mediaDetailItem)} | {mediaDuration} |{" "}
         {getMediaCountries(mediaDetailItem)}
       </p>
       <div className="flex items-center gap-4 mt-2">
-        <p className="text-gray-400">{getMediaLanguages(mediaDetailItem)}</p>
+        <p className={`${isDark ? "text-gray-400" : "text-gray-500"}`}>
+          {getMediaLanguages(mediaDetailItem)}
+        </p>
         <span>|</span>
         <div className="badge py-4">
           <div className="flex items-center gap-2">
