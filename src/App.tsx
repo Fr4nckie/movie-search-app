@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 import Root from "./pages/Root.tsx"
 import MediaDetail from "./pages/MediaDetail.tsx"
 import TrendingList from "./components/TrendingList.tsx"
@@ -13,7 +13,8 @@ const router = createBrowserRouter([
       {
         element: <SearchLayout />,
         children: [
-          { index: true, element: <TrendingList /> },
+          { index: true, element: <Navigate to="trending?page=1" replace /> },
+          { path: "trending", element: <TrendingList /> },
           {
             path: "search",
             element: <MediaList />,
