@@ -1,22 +1,18 @@
-import { useEffect, useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useCallback, useEffect, useState } from "react"
+import { useSearchParams } from "react-router-dom"
 
 export const useTrendingPagination = () => {
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const [page, setPage] = useState(Number(searchParams.get("page")) || 1)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialPage = Number(searchParams.get("page")) || 1
+  const [page, setPage] = useState(initialPage)
 
-  const onNext = () => {
-    setPage((prev) => prev + 1)
-  }
-
-  const onPrev = () => {
-    setPage((prev) => Math.max(prev - 1, 1))
-  }
+  const goToPage = useCallback((newPage: number) => {
+    setPage(newPage)
+  }, [])
 
   useEffect(() => {
-    navigate(`/trending?page=${page}`, { replace: true })
-  }, [page, navigate])
+    setSearchParams({ page: String(page) })
+  }, [page, setSearchParams])
 
-  return { page, onNext, onPrev }
+  return { page, goToPage }
 }
