@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
 import { getTrendingMedia } from "../services/getTrendingMedia.ts"
 
-export const useTrendingMedia = () => {
+export const useTrendingMedia = (page: number = 1) => {
   return useQuery({
-    queryKey: ["trending"],
-    queryFn: () => getTrendingMedia(),
+    queryKey: ["trending", page],
+    queryFn: () => getTrendingMedia(page),
+    enabled: !!page,
   })
 }
