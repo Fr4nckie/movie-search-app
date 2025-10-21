@@ -6,7 +6,7 @@ const Header = () => {
     <header className="py-4 shadow mb-4">
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link to="/">
-          <h1 className="text-2xl font-bold capitalize">movie search app</h1>
+          <h1 className="text-lg md:text-2xl font-bold">CineFind</h1>
         </Link>
         <ToggleThemeButton />
       </div>
