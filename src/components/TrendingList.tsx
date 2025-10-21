@@ -1,11 +1,12 @@
 import { useTrendingMedia } from "../hooks/useTrendingMedia.ts"
-import { useTrendingPagination } from "../hooks/useTrendingPagination.ts"
 import ErrorMessage from "./ErrorMessage.tsx"
 import Loading from "./Loading.tsx"
 import MediaCard from "./MediaCard.tsx"
+import { useTrendingPagination } from "../hooks/useTrendingPagination.ts"
+import PaginationControls from "./PaginationControls.tsx"
 
 const TrendingList = () => {
-  const { page, onNext, onPrev } = useTrendingPagination()
+  const { page, goToPage } = useTrendingPagination()
   const { data, isLoading, isError, error } = useTrendingMedia(page)
 
   if (isLoading) {
@@ -31,17 +32,14 @@ const TrendingList = () => {
           <MediaCard key={item.id} mediaItem={item} />
         ))}
       </div>
-      <div className="mt-8 text-center space-x-4">
-        <button className="btn btn-soft" disabled={page === 1} onClick={onPrev}>
-          Prev
-        </button>
-        <button
-          className="btn btn-soft"
-          onClick={onNext}
-          disabled={data?.total_pages === page}
-        >
-          Next
-        </button>
+      <div className="mt-8 flex items-center justify-center">
+        {data && (
+          <PaginationControls
+            page={page}
+            totalPages={data?.total_pages}
+            goToPage={goToPage}
+          />
+        )}
       </div>
     </div>
   )
